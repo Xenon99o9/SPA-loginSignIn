@@ -13,19 +13,31 @@ const fakeApiResponse = [
 const app = document.getElementById("app");
 
 
+function connexionPage() {
 
-
-// Les "pages" de notre SPA
-const routes = {
-    connexion: `
+    app.innerHTML = `
         <p>mail</p>
 		<input type="text" name="identifiant" placeholder="Adresse e-mail" required>
 		<p>password</p>
 		<input type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
         <button id="buttonInscription">inscription</button>
-    `,
+    `;
 
-    inscription: `
+    const buttonInscri =
+        document.getElementById("buttonInscription");
+
+
+    buttonInscri.addEventListener("click", () => {
+
+        inscriptionPage()
+
+    });
+
+}
+
+function inscriptionPage() {
+
+    app.innerHTML = `
         <p>mail</p>
 		<input type="text" name="identifiant" placeholder="Adresse e-mail" required>
 		<p>password</p>
@@ -35,42 +47,22 @@ const routes = {
 		<p>password</p>
 		<input type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
         <button id="buttonConnexion">Connexion</button>
-    `,
+    `;
 
-    accueil: `
-        <h1>Contact</h1>
-        <p>Voici la page de contact.</p>
-    `
-};
+    const buttonConnexion =
+        document.getElementById("buttonConnexion");
 
 
-// Fonction qui change la page
-function navigate(page) {
-    app.innerHTML = routes[page];
-    if (page == "connexion"){
-        const buttonInscription = document.getElementById("buttonInscription");
-    } else if (page == "inscription") {
-        const buttonConnexion = document.getElementById("buttonConnexion");
-    }
+    buttonConnexion.addEventListener("click", () => {
+
+        connexionPage()
+
+    });
+
 }
 
 // Page par défaut
-navigate("connexion");
-const buttonInscription = document.getElementById("buttonInscription");
-const buttonConnexion = document.getElementById("buttonConnexion");
+connexionPage()
 
-
-buttonInscription.addEventListener("click", () => {
-
-    navigate("inscription");
-
-});
-
-
-buttonConnexion.addEventListener("click", () => {
-
-    navigate("connexion");
-
-});
 
 
