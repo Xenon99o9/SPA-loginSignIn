@@ -189,6 +189,3 @@ function homePage() {
 }
 
 connexionPage()
-
-// Ajouter un message « Connexion en cours… » ou « Création du compte… » pendant le
-délai simulé
