@@ -34,6 +34,7 @@ function connexionPage() {
             <input type="text" id="email" placeholder="Adresse e-mail" required>
             <p>password</p>
             <input type="password" id="password" placeholder="Confirmer le mot de passe" required>
+            <div id="statusMessage" style="margin-top: 10px; color: blue;"></div>
             <button type="submit" id="SeCo">Se connecter</button>
             <a id="buttonInscription">Créer un compte</a>
         </form>
@@ -67,7 +68,11 @@ function connexionPage() {
 
         });
 
+
         if (user){
+            submitBtn.disabled = true;
+            statusDiv.innerText = "Connexion en cours...";
+
             setTimeout(() => {
                 currentUser = user.name
                 alert('Connexion réussi')
@@ -96,6 +101,7 @@ function inscriptionPage() {
             <input type="password" id="password" placeholder="Entrer votre mot de passe" required>
             <p>confirme password</p>
             <input type="password" id="confirm_password" placeholder="Confirmer le mot de passe" required>
+            <div id="statusMessage" style="margin-top: 10px; color: green;"></div>
             <button type="submit" id='SInscrire'>Créer mon compte</button>
             <a id="buttonConnexion">Déjà un compte ?</a>
         </form>
@@ -140,6 +146,8 @@ function inscriptionPage() {
                 };
 
                 setTimeout(() => {
+                    submitBtn.disabled = true;
+                    statusDiv.innerText = "Création du compte en cours...";
 
                     fakeApiResponse.push(nouvelUtilisateur);
                     alert("Inscription OK ," + name)
@@ -180,6 +188,7 @@ function homePage() {
 
 }
 
-
-// Page par défaut
 connexionPage()
+
+// Ajouter un message « Connexion en cours… » ou « Création du compte… » pendant le
+délai simulé
