@@ -53,7 +53,6 @@ function connexionPage() {
         });
 
         if (user) {
-            // Désactiver le bouton et afficher le message AVANT le délai
             SeCo.disabled = true;
             statusDiv.innerText = "Connexion en cours...";
 
@@ -117,7 +116,6 @@ function inscriptionPage() {
                 password: password
             };
 
-            // On lance le visuel de chargement
             SInscrire.disabled = true;
             statusDiv.innerText = "Création du compte en cours...";
 
@@ -149,5 +147,5 @@ function homePage() {
     });
 }
 
-// Lancement initial
+
 connexionPage();
