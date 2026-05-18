@@ -26,7 +26,7 @@ function connexionPage() {
             <p>email</p>
             <input type="email" id="email" placeholder="Adresse e-mail" required>
             <p>password</p>
-            <input type="password" id="password" placeholder="Mot de passe" required>
+            <input type="password" minlength="5" id="password" placeholder="Mot de passe" required>
             <div id="statusMessage" style="margin-top: 10px; color: blue; height: 20px;"></div>
             <button type="submit" id="SeCo">Se connecter</button>
             <br><br>
@@ -77,9 +77,9 @@ function inscriptionPage() {
             <p>email</p>
             <input type="email" id="email" placeholder="Adresse e-mail" required>
             <p>password</p>
-            <input type="password" id="password" placeholder="Entrer votre mot de passe" required>
+            <input type="password" minlength="5" id="password" placeholder="Entrer votre mot de passe" required>
             <p>confirme password</p>
-            <input type="password" id="confirm_password" placeholder="Confirmer le mot de passe" required>
+            <input type="password" minlength="5" id="confirm_password" placeholder="Confirmer le mot de passe" required>
             <div id="statusMessage" style="margin-top: 10px; color: green; height: 20px;"></div>
             <button type="submit" id='SInscrire'>Créer mon compte</button>
             <br><br>
