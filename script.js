@@ -20,6 +20,8 @@ let fakeApiResponse = [
 
 ];
 
+let currentUser = null
+
 const app = document.getElementById("app");
 
 
@@ -67,8 +69,9 @@ function connexionPage() {
 
         if (user){
             setTimeout(() => {
-
+                currentUser = user.name
                 alert('Connexion réussi')
+                homePage()
 
             }, 2000);
            
@@ -125,7 +128,6 @@ function inscriptionPage() {
 
         });
 
-        console.log(emailExists)
         if (emailExists){
             alert("Email déjà existant")
             return
@@ -141,7 +143,7 @@ function inscriptionPage() {
 
                     fakeApiResponse.push(nouvelUtilisateur);
                     alert("Inscription OK ," + name)
-                    console.log(fakeApiResponse)
+                    connexionPage()
 
                 }, 2000);
                 
@@ -155,6 +157,28 @@ function inscriptionPage() {
 
 }
 
+function homePage() {
+
+    app.innerHTML = `
+
+        <h2 id="greeting"></h2>
+        <button id="deco">Deconnexion</button>
+
+    `;
+
+    let greeting = document.getElementById("greeting");
+    greeting.innerText = "Bonjour, " + currentUser;
+
+    const decoButton = document.getElementById("deco")
+
+    decoButton.addEventListener("click", () => {
+
+        currentUser = null
+        connexionPage()
+
+    });
+
+}
 
 
 // Page par défaut
