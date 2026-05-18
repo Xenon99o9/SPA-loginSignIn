@@ -1,58 +1,47 @@
 let fakeApiResponse = [
-
     {
         name: "Lucas",
         email: "lucas@gmail.com",
         password: "123456"
     },
-
     {
         name: "Emma",
         email: "emma@gmail.com",
         password: "azerty"
     },
-
     {
         name: "Nathan",
         email: "nathan@gmail.com",
         password: "password"
     }
-
 ];
 
-let currentUser = null
-
+let currentUser = null;
 const app = document.getElementById("app");
 
-
 function connexionPage() {
-
     app.innerHTML = `
-        <form>
+        <form id="loginForm">
             <h2>Connexion</h2>
             <p>email</p>
-            <input type="text" id="email" placeholder="Adresse e-mail" required>
+            <input type="email" id="email" placeholder="Adresse e-mail" required>
             <p>password</p>
-            <input type="password" id="password" placeholder="Confirmer le mot de passe" required>
-            <div id="statusMessage" style="margin-top: 10px; color: blue;"></div>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <div id="statusMessage" style="margin-top: 10px; color: blue; height: 20px;"></div>
             <button type="submit" id="SeCo">Se connecter</button>
-            <a id="buttonInscription">Créer un compte</a>
+            <br><br>
+            <a id="buttonInscription" style="cursor:pointer; color: blue; text-decoration: underline;">Créer un compte</a>
         </form>
     `;
 
-    const buttonInscri =
-        document.getElementById("buttonInscription");
-    
-    const SeCo = document.getElementById("SeCo")
-
+    const buttonInscri = document.getElementById("buttonInscription");
+    const SeCo = document.getElementById("SeCo");
+    const statusDiv = document.getElementById("statusMessage");
+    const form = document.getElementById("loginForm");
 
     buttonInscri.addEventListener("click", () => {
-
-        inscriptionPage()
-
+        inscriptionPage();
     });
-
-    const form = document.querySelector("form");
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -60,66 +49,52 @@ function connexionPage() {
         let password = document.getElementById("password").value;
 
         const user = fakeApiResponse.find(user => {
-
-            return (
-                user.email === email &&
-                user.password === password
-            );
-
+            return user.email === email && user.password === password;
         });
 
-
-        if (user){
-            submitBtn.disabled = true;
+        if (user) {
+            // Désactiver le bouton et afficher le message AVANT le délai
+            SeCo.disabled = true;
             statusDiv.innerText = "Connexion en cours...";
 
             setTimeout(() => {
-                currentUser = user.name
-                alert('Connexion réussi')
-                homePage()
-
+                currentUser = user.name;
+                alert('Connexion réussie');
+                homePage();
             }, 2000);
-           
         } else {
-            alert("Erreur")
+            alert("Email ou mot de passe incorrect");
         }
-
     });
- 
 }
 
 function inscriptionPage() {
-
     app.innerHTML = `
-        <form>
+        <form id="registerForm">
             <h2>Inscription</h2>
             <p>nom</p>
-            <input type="text" id="name" placeholder="name" required>
+            <input type="text" id="name" placeholder="Nom" required>
             <p>email</p>
-            <input type="text" id="email" placeholder="Adresse e-mail" required>
+            <input type="email" id="email" placeholder="Adresse e-mail" required>
             <p>password</p>
             <input type="password" id="password" placeholder="Entrer votre mot de passe" required>
             <p>confirme password</p>
             <input type="password" id="confirm_password" placeholder="Confirmer le mot de passe" required>
-            <div id="statusMessage" style="margin-top: 10px; color: green;"></div>
+            <div id="statusMessage" style="margin-top: 10px; color: green; height: 20px;"></div>
             <button type="submit" id='SInscrire'>Créer mon compte</button>
-            <a id="buttonConnexion">Déjà un compte ?</a>
+            <br><br>
+            <a id="buttonConnexion" style="cursor:pointer; color: blue; text-decoration: underline;">Déjà un compte ?</a>
         </form>
     `;
 
-    const buttonConnexion =
-        document.getElementById("buttonConnexion");
-
+    const buttonConnexion = document.getElementById("buttonConnexion");
+    const SInscrire = document.getElementById("SInscrire");
+    const statusDiv = document.getElementById("statusMessage");
+    const form = document.getElementById("registerForm");
 
     buttonConnexion.addEventListener("click", () => {
-
-        connexionPage()
-
+        connexionPage();
     });
-
-    const SInscrire = document.getElementById("SInscrire");
-
-    const form = document.querySelector("form");
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -128,64 +103,51 @@ function inscriptionPage() {
         let password = document.getElementById("password").value;
         let confirm_password = document.getElementById("confirm_password").value;
 
-        const emailExists = fakeApiResponse.some(user => {
+        const emailExists = fakeApiResponse.some(user => user.email === email);
 
-            return user.email === email;
+        if (emailExists) {
+            alert("Email déjà existant");
+            return;
+        } 
 
-        });
+        if (password === confirm_password) {
+            const nouvelUtilisateur = {
+                name: name,
+                email: email,
+                password: password
+            };
 
-        if (emailExists){
-            alert("Email déjà existant")
-            return
+            // On lance le visuel de chargement
+            SInscrire.disabled = true;
+            statusDiv.innerText = "Création du compte en cours...";
+
+            setTimeout(() => {
+                fakeApiResponse.push(nouvelUtilisateur);
+                alert("Inscription OK, bienvenue " + name);
+                connexionPage();
+            }, 2000);
         } else {
-            if (password === confirm_password){
-                const nouvelUtilisateur = {
-                    name: name,
-                    email: email,
-                    password: password
-                };
-
-                setTimeout(() => {
-                    submitBtn.disabled = true;
-                    statusDiv.innerText = "Création du compte en cours...";
-
-                    fakeApiResponse.push(nouvelUtilisateur);
-                    alert("Inscription OK ," + name)
-                    connexionPage()
-
-                }, 2000);
-                
-            } else {
-                alert("Les mots de passes ne correspondent pas")
-            }
-            
+            alert("Les mots de passe ne correspondent pas");
         }
-
     });
-
 }
 
 function homePage() {
-
     app.innerHTML = `
-
         <h2 id="greeting"></h2>
-        <button id="deco">Deconnexion</button>
-
+        <button id="deco">Déconnexion</button>
     `;
 
     let greeting = document.getElementById("greeting");
     greeting.innerText = "Bonjour, " + currentUser;
 
-    const decoButton = document.getElementById("deco")
+    const decoButton = document.getElementById("deco");
 
     decoButton.addEventListener("click", () => {
-
-        currentUser = null
-        connexionPage()
-
+        currentUser = null;
+        connexionPage();
     });
-
 }
 
-connexionPage()
+// Lancement initial
+connexionPage();
