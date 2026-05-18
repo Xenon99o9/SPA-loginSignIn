@@ -76,7 +76,7 @@ function connexionPage() {
             }, 2000);
            
         } else {
-            alert("Erreur")
+            alert("Adresse email ou mot de passe éronné")
         }
 
     });
