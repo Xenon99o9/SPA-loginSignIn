@@ -45,15 +45,16 @@ function connexionPage() {
         inscriptionPage();
     });
 
-    form.addEventListener("submit", (event) => {
-        console.log(fakeApiResponse)
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
+
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
-        password = hashSHA256(password);
-        console.log(password);
+
+        const hashedPassword = await hashSHA256(password);
+
         const user = fakeApiResponse.find(user => {
-            return user.email === email && user.password === hashSHA256(password);
+            return user.email === email && user.password === hashedPassword;
         });
 
         if (user) {
@@ -99,8 +100,9 @@ function inscriptionPage() {
         connexionPage();
     });
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
+
         let name = document.getElementById("name").value;
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
@@ -111,13 +113,16 @@ function inscriptionPage() {
         if (emailExists) {
             alert("Email déjà existant");
             return;
-        } 
+        }
 
         if (password === confirm_password) {
+
+            const hashedPassword = await hashSHA256(password);
+
             const nouvelUtilisateur = {
                 name: name,
                 email: email,
-                password: hashSHA256(password)
+                password: hashedPassword
             };
 
             SInscrire.disabled = true;
@@ -128,6 +133,7 @@ function inscriptionPage() {
                 alert("Inscription OK, bienvenue " + name);
                 connexionPage();
             }, 2000);
+
         } else {
             alert("Les mots de passe ne correspondent pas");
         }
