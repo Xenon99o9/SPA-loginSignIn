@@ -46,10 +46,12 @@ function connexionPage() {
     });
 
     form.addEventListener("submit", (event) => {
+        console.log(fakeApiResponse)
         event.preventDefault();
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
-
+        password = hashSHA256(password);
+        console.log(password);
         const user = fakeApiResponse.find(user => {
             return user.email === email && user.password === hashSHA256(password);
         });
