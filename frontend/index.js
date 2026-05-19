@@ -1,19 +1,21 @@
+async function hashSHA256(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return hashHex;
+}
+
+
+
 let fakeApiResponse = [
-    {
-        name: "Lucas",
-        email: "lucas@gmail.com",
-        password: "123456"
-    },
-    {
-        name: "Emma",
-        email: "emma@gmail.com",
-        password: "azerty"
-    },
-    {
-        name: "Nathan",
-        email: "nathan@gmail.com",
-        password: "password"
-    }
+
 ];
 
 let currentUser = null;
@@ -49,7 +51,7 @@ function connexionPage() {
         let password = document.getElementById("password").value;
 
         const user = fakeApiResponse.find(user => {
-            return user.email === email && user.password === password;
+            return user.email === email && user.password === hashSHA256(password);
         });
 
         if (user) {
@@ -113,7 +115,7 @@ function inscriptionPage() {
             const nouvelUtilisateur = {
                 name: name,
                 email: email,
-                password: password
+                password: hashSHA256(password)
             };
 
             SInscrire.disabled = true;
