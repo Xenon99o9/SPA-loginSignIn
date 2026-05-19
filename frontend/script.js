@@ -12,11 +12,29 @@ async function hashSHA256(message) {
   return hashHex;
 }
 
+async function loadData() {
+  const res = await fetch('/api/data');
+  const data = await res.json();
 
+  return data;
+}
 
-let fakeApiResponse = [
+async function addUser(name, email, password) {
+  const res = await fetch('/api/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password
+    })
+  });
 
-];
+  const data = await res.json();
+  return data;
+}
 
 let currentUser = null;
 const app = document.getElementById("app");
@@ -52,8 +70,8 @@ function connexionPage() {
         let password = document.getElementById("password").value;
 
         const hashedPassword = await hashSHA256(password);
-
-        const user = fakeApiResponse.find(user => {
+        const API = loadData()
+        const user = API.find(user => {
             return user.email === email && user.password === hashedPassword;
         });
 
@@ -107,8 +125,8 @@ function inscriptionPage() {
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
         let confirm_password = document.getElementById("confirm_password").value;
-
-        const emailExists = fakeApiResponse.some(user => user.email === email);
+        const API = loadData()
+        const emailExists = API.some(user => user.email === email);
 
         if (emailExists) {
             alert("Email déjà existant");
@@ -119,18 +137,12 @@ function inscriptionPage() {
 
             const hashedPassword = await hashSHA256(password);
 
-            const nouvelUtilisateur = {
-                name: name,
-                email: email,
-                password: hashedPassword
-            };
 
             SInscrire.disabled = true;
             statusDiv.innerText = "Création du compte en cours...";
 
             setTimeout(() => {
-                fakeApiResponse.push(nouvelUtilisateur);
-                alert("Inscription OK, bienvenue " + name);
+                addUser(name, email, hashedPassword)
                 connexionPage();
             }, 2000);
 
