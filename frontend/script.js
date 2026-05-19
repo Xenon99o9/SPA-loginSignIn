@@ -12,16 +12,15 @@ async function hashSHA256(message) {
   return hashHex;
 }
 
-console.log('help')
 async function loadData() {
-  const res = await fetch('/api/data');
+  const res = await fetch('http://localhost:3000/api/data');
   const data = await res.json();
 
   return data;
 }
 
 async function addUser(name, email, password) {
-  const res = await fetch('/api/users', {
+  const res = await fetch('http://localhost:3000/api/data', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -71,7 +70,7 @@ function connexionPage() {
         let password = document.getElementById("password").value;
 
         const hashedPassword = await hashSHA256(password);
-        const API = loadData()
+        const API = await loadData()
         const user = API.find(user => {
             return user.email === email && user.password === hashedPassword;
         });
@@ -126,7 +125,7 @@ function inscriptionPage() {
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
         let confirm_password = document.getElementById("confirm_password").value;
-        const API = loadData()
+        const API = await loadData()
         const emailExists = API.some(user => user.email === email);
 
         if (emailExists) {
@@ -143,7 +142,7 @@ function inscriptionPage() {
             statusDiv.innerText = "Création du compte en cours...";
 
             setTimeout(() => {
-                addUser(name, email, hashedPassword)
+                addUser(name, email, hashedPassword);
                 connexionPage();
             }, 2000);
 
