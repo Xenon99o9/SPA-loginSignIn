@@ -12,6 +12,7 @@ async function hashSHA256(message) {
   return hashHex;
 }
 
+console.log('help')
 async function loadData() {
   const res = await fetch('/api/data');
   const data = await res.json();
